@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getResumeById } from '../utils/fileStorage';
 import ResumeAnalysis from '../components/ResumeAnalysis';

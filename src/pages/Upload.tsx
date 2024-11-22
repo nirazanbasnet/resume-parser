@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { extractData } from '../utils/extractData';
 import { saveResume } from '../utils/fileStorage';
+
 
 export default function Upload() {
     const navigate = useNavigate();

@@ -60,6 +60,39 @@ interface ResumeMetadata {
     }
   };
   
+  export const deleteResume = async (id: string): Promise<void> => {
+    try {
+        // Delete from IndexedDB
+        const db = await openDB();
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        await store.delete(id);
+        await tx.oncomplete;
+
+        // Update the main resumes array in localStorage
+        const resumes = getResumeList();
+        const updatedResumes = resumes.filter(resume => resume.id !== id);
+        localStorage.setItem('resumes', JSON.stringify(updatedResumes));
+
+        // Delete all related data from localStorage
+        const keysToDelete = [
+            `resume_metadata_${id}`,
+            `resume_file_${id}`,
+            `resume_analysis_${id}`,
+        ];
+
+        keysToDelete.forEach(key => {
+            if (localStorage.getItem(key)) {
+                localStorage.removeItem(key);
+            }
+        });
+
+    } catch (error) {
+        console.error('Error in deleteResume:', error);
+        throw error;
+    }
+  };
+  
   // IndexedDB utilities
   const DB_NAME = 'ResumeStorage';
   const STORE_NAME = 'files';
