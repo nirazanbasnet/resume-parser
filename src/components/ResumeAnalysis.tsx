@@ -19,7 +19,7 @@ interface ResumeAnalysisProps {
 
 const ResumeAnalysis: React.FC<ResumeAnalysisProps> = ({ analysis }) => {
   return (
-    <div className="p-6">
+    <div className="px-0 pb-6">
 
       {/* Analysis Sections */}
       <div className="grid grid-cols-2 gap-6">

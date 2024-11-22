@@ -1,31 +1,25 @@
-import { useState } from "react";
-import FileUpload from "./components/FileUpload";
-import Details from "./pages/Details";
-import { extractData } from "./utils/extractData";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Upload from './pages/Upload';
+import ResumeList from './pages/ResumeList';
+import Details from './pages/Details';
 
 function App() {
-  const [file, setFile] = useState<File | null>(null);
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleFileUpload = (uploadedFile: File) => {
-    setFile(uploadedFile);
-    setLoading(true);
-
-    extractData(uploadedFile).then((extractedData) => {
-      console.log(extractedData);
-      setData(extractedData);
-      setLoading(false);
-    });
-  };
-
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      <h1 className="mb-4 text-center text-3xl font-bold">Resume Parser</h1>
-      {!file && <FileUpload onFileUpload={handleFileUpload} />}
-      {loading && <p className="text-center text-gray-500">Extracting data...</p>}
-      {data && <Details data={data} />}
-    </div>
+    <Router>
+      <Routes>
+        {/* Home route redirects to upload */}
+        <Route path="/" element={<Upload />} />
+        
+        {/* Resume list route */}
+        <Route path="/resumes" element={<ResumeList />} />
+        
+        {/* Individual resume details route */}
+        <Route path="/resume/:id" element={<Details />} />
+        
+        {/* Catch all route - redirects to home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
 
